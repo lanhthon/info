@@ -77,7 +77,7 @@ document.getElementById("quote").innerHTML = loibaihat[luot++];
 
 
 //countdown//
-var countDownDate = new Date("1, 20, 2022 5:55:55").getTime();
+var countDownDate = new Date("0, 15, 2022 5:55:55").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function() {
