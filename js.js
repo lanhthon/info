@@ -19,7 +19,7 @@ var name = data.ten;
 
 var nhacnen = document.getElementById("nhac");
 nhacnen.play();
-var loibaihat = ["Music: Hall of Fame - The Script<br> <img class='center-block img-wrong' src='img/anhnhac.jpg' width='100' height='100'>", "Chào bạn "+name+" chúc bạn một ngày vui vẻ", "lyrics:",
+var loibaihat = ["Music: Hall of Fame - The Script<br> <img class='center-block img-wrong' src='anhnhac.jpg' width='100' height='100'>", "Chào bạn "+name+" chúc bạn một ngày vui vẻ", "lyrics:",
 "Yeah, you can be the greatest<br><strong> Yeah, "+"<b>"+name+"</b>"+" có thể là người vĩ đại nhất",
 "You can be the best<br><strong>  "+"<b>"+name+"</b>"+" có thể là người tuyệt vời nhất",
 "You can be the King Kong banging on your chest<br><strong>  "+"<b>"+name+"</b>"+" có thể là chú khỉ King Kong vỗ ngực ra oai",
