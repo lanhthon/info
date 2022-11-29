@@ -12,7 +12,7 @@ function readTextFile(file, callback) {
 }
 
 // Chạy thử
-readTextFile("name2.json", function (text) {
+readTextFile("https://unplayed-poll.000webhostapp.com/up.json", function (text) {
     var data = JSON.parse(text);
     
 
