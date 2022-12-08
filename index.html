@@ -9,26 +9,20 @@
     <title>Lành Thôn</title>
 
 <style type="text/css" media="screen">
- *,
-*::before,
-*::after{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 .blur,
 .main,
 .particles{
-    width: 100%;
+    
+}
+.blur{
+/*    background-color: #212121; */
+	width: 100%;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1;
-}
-.blur{
-/*    background-color: #212121; */
     background-image: url("https://github.com/ricardoolivaalonso/recursos/blob/master/bg.jpg?raw=true");
     background-repeat: no-repeat;
     background-size: cover;
@@ -45,17 +39,7 @@
     position: absolute;
     z-index: 100;
 }
-.title{
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 100;
-    letter-spacing: 15px;
-    padding: 12.5px 25px;
-    text-shadow: 1px 1px 10px black;
-    border: 2px solid rgba( 255, 255, 255, .5);
-    border-radius: 4px;
-    color: white;
-}
+
 
 .particles{
     position: absolute;
@@ -98,16 +82,22 @@ body {
   margin: 0;
   font-family: Arial;
   font-size: 17px;
+ width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+	background-image: url("backgound.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px);
+    transform: scale(1.2);
+/*     animation: bg 8s linear infinite alternate; */
+
 }
 
- body {
- 	
-  color: #fff;
-
-background-repeat:no-repeat;
- background-size:cover; 
-background-attachment: fixed;
-}
 b {
   
   text-transform: capitalize;
@@ -259,10 +249,9 @@ input.user-password{
 
     
 <body>
-	<div class="blur"></div>
-    <div class="main" id="main">
-        <h1 class="title">PARTICLES</h1>
-   
+	
+    
+       
 
 <video autoplay loop muted id="myVideo">
 <source src="video.mp4" type="video/mp4"> Your browser does not support HTML5 video.</video>
@@ -310,7 +299,7 @@ https://medium.com/@AmJustSam/how-to-do-css-only-frosted-glass-effect-e2666bafab
   </div>
   </div>
 </div>
-</div></div>
+
     <div class="particles" id="particles"></div>
 <script>
 var particles= document.getElementById("particles");
