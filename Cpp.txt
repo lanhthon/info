@@ -1,0 +1,103 @@
+#include<stdio.h>
+
+void input(int a[],int n){
+
+	for(int i=0;i<n;i++){	printf("Nhap a[%d]",i);
+
+	scanf("%d",&a[i]);
+
+	}
+
+}
+
+void output(int a[],int n){
+
+	for(int i=0;i<n;i++){
+
+			printf("%d  ",a[i]);
+
+	printf("\n");
+
+}
+
+}
+
+void chia5(int a[], int b[], int n){
+
+	
+
+	for(int i=0;i<n;i++){
+
+if(a[i]%5==0){
+
+	b[i]=a[i];
+
+	
+
+	}
+
+}
+
+}
+
+int demchia5(int a[], int n){
+
+	int s=0;
+
+	for(int i=0;i<n;i++){
+
+if(a[i]%5==0)
+
+	s++;
+
+}
+
+return s;
+
+}
+
+int tongchia5(int a[],int n){
+
+	int s=0;
+
+	for(int i=0;i<n;i++){
+
+if(a[i]%5==0){
+
+	s+=a[i];
+
+	
+
+	}
+
+	
+
+}
+
+return s;
+
+}
+
+int main(){
+
+int a[100],b[100],n,n2;
+
+scanf("%d",&n);
+
+input(a,n);
+
+output(a,n);
+
+chia5(a,b,n);
+
+printf("in so chia het 5\n");
+
+output(b,n);
+
+printf("in so pha tu chia het 5 la: %d\n",demchia5(a,n));
+
+printf("tong phan tu chia het 5 la: %d\n",tongchia5(a,n));
+
+return 0;
+
+}	
