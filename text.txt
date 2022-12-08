@@ -131,7 +131,7 @@ body{
 
 .user-name{
   margin-top: 15px;
-  margin-bottom: 15px;
+  ma
   color: white;
 }
 .text{
