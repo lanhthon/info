@@ -1,0 +1,35 @@
+int led=6;
+int button=2
+int last=0,cout=0;
+void setup(){
+Serial.begin(9600);
+pinMode (button, INPUT);
+ pinMode(led, OUTPUT);
+ }
+void loop()
+{
+ btst=digitalRead (button);
+Serial.println (btst);
+if (btst != last) {
+if (btst==HIGH) {
+cout++;
+else {
+Serial.println(btst);
+Serial.println("+off");
+}
+}
+last=button;
+Serial.print(cout);
+
+}else{
+Serial.println (cout);
+if (cout%2!=0) {
+digitalWrite (led, HIGH);
+delay(100);
+}else{
+digitalWrite(led, LOW);
+delay(100);
+}
+delay(200);
+}
+}
