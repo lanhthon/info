@@ -1,0 +1,32 @@
+int trig=6;
+int echo=7
+int loa=8;
+long khoangcach
+long thoigian;
+void setup()
+pinMode (trig, OUTPUT);
+pinMode (echo, INPUT);
+pinMode (loa, OUTPUT);
+Serial.begin(9600);
+}
+void loop()
+khoangcach=0;
+dokhoangcach();
+Serial println(khoangcach);
+if (khoangcach<20){
+digitalWrite (loa, HIGH);
+}else{
+digitalWrite (loa, LOW);
+}
+delay(500);
+}
+void dokhoangcach (){
+
+digitalWrite (trig, LOW);
+delayMicroseconds (2);
+digitalWrite (trig, HIGH);
+delayMicroseconds (10);
+digitalWrite(trig, LOW);
+thoigian=pulseIn (echo, HIGH);
+khoangcach=thoigian/2/29.412;
+}

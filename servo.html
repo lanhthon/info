@@ -1,0 +1,21 @@
+#include<Servo.h>
+#define servoPin 9
+Servo myservo
+int bientro=A0;
+int led=6;
+void setup(){
+Serial.begin(9600);
+myservo.attach(servoPin);
+myservo.write(0);
+pinMode(led, OUTPUT);
+}
+void loop(){
+int value=analogRead(bientro);
+Serial.println(value);
+int voltage;
+voltage=map(value,0,1023,0,180);
+myservo.write(voltage);
+delay(200);
+Serial.println(voltage);
+delay(200);
+}
