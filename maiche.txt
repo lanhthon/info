@@ -1,0 +1,104 @@
+#include <ESP8266WiFi.h> //Thu vi?n ESP8266
+#include <DNSServer.h>  //Thu viên DNSServer
+#include <ESP8266WebServer.h>  //Thu vi?n WebServer
+const IPAddress apIP(192, 168, 1, 1);                   //Ð?a ch? ip c?u hình
+const char* apSSID = "PhongMay1";                   //Tên Access point
+const char* passAP = "PhongMay1";
+
+DNSServer dnsServer;               //Khai báo dns server                 
+ESP8266WebServer webServer(80);    //Khai báo webserver 
+
+void setup() {
+  pinMode(D4, OUTPUT);         //Khai báo led hi?n th?
+  digitalWrite(D4, HIGH);
+  pinMode(D3, INPUT_PULLUP); //Khai báo nút nh?n
+  attachInterrupt(D3, OnOffControl, FALLING);     //Ng?t khi chuy?n t? m? cao
+
+  WiFi.mode(WIFI_AP);
+  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
+  WiFi.softAP(apSSID,passAP);              //thiet lap 1 open netword WiFi.softAP(ssid, password)
+  dnsServer.start(53, "*", apIP);
+  startWebServer();
+}
+
+void loop() {
+  dnsServer.processNextRequest();
+  webServer.handleClient();
+}
+void OnOffControl(){
+  bool statusLed = !digitalRead(D4);
+  digitalWrite(D4, statusLed);
+}
+void startWebServer() {
+  webServer.on("/sw/off", []() {
+    digitalWrite(D4, HIGH);
+    String s;
+    s = "<h1>ACCESS POINT MODE</h1></p>";
+    s += "<p>LEDs have been turned off</p>"; 
+    webServer.send(200, "text/html", makePage("ACCESS POINT CONTROL", s));
+  });
+  webServer.on("/sw/on", []() {
+    digitalWrite(D4, LOW);
+    String s;
+    s = "<h1>ACCESS POINT MODE</h1></p>";
+    s += "<p>LEDs have been turned on </p>"; 
+    webServer.send(200, "text/html", makePage("ACCESS POINT CONTROL", s));
+  });
+
+   webServer.onNotFound([]() {
+    String s;
+    s = "<h1>ACCESS POINT MODE</h1></p>";
+    s += "<p>Please press the key below to control the led!</p>"; 
+    webServer.send(200, "text/html", makePage("ACCESS POINT CONTROL", s));
+   });
+
+   webServer.begin();
+}
+
+String makePage(String title, String contents) {
+  String s = "<!DOCTYPE html><html><head>";
+  s += "<meta name=\"viewport\" content=\"width=device-width,user-scalable=0\">";
+  s += "<title>";
+  s += title;
+  s += "</title></head><body>";
+  s += "<h1><font color=\"blue\">E-SMART CONTROL PANEL</font></h1>";
+  s += contents;
+  s += "<p><button><a href=\"/sw/off\" style=\"text-decoration: none\">Switch off</a></button>";
+  s += "<button><a href=\"/sw/on\" style=\"text-decoration: none\">Switch on</a></button></p>";
+  s += "</body></html>";
+  return s;
+}
+String urlDecode(String input) {
+  String s = input;
+  s.replace("%20", " ");
+  s.replace("+", " ");
+  s.replace("%21", "!");
+  s.replace("%22", "\"");
+  s.replace("%23", "#");
+  s.replace("%24", "$");
+  s.replace("%25", "%");
+  s.replace("%26", "&");
+  s.replace("%27", "\'");
+  s.replace("%28", "(");
+  s.replace("%29", ")");
+  s.replace("%30", "*");
+  s.replace("%31", "+");
+  s.replace("%2C", ",");
+  s.replace("%2E", ".");
+  s.replace("%2F", "/");
+  s.replace("%2C", ",");
+  s.replace("%3A", ":");
+  s.replace("%3A", ";");
+  s.replace("%3C", "<");
+  s.replace("%3D", "=");
+  s.replace("%3E", ">");
+  s.replace("%3F", "?");
+  s.replace("%40", "@");
+  s.replace("%5B", "[");
+  s.replace("%5C", "\\");
+  s.replace("%5D", "]");
+  s.replace("%5E", "^");
+  s.replace("%5F", "-");
+  s.replace("%60", "`");
+  return s;
+}
