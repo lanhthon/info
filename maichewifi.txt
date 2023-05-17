@@ -1,0 +1,273 @@
+//http://arduino.esp8266.com/stable/package_esp8266com_index.json
+//https://github.com/tzapu/WiFiManager
+//https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+//192.168.1.14
+#include <WiFiManager.h>// thư viện định cấu hình wifi 
+#include <ESP8266WiFi.h> 
+#include <FirebaseESP8266.h>
+#define FIREBASE_HOST "maiche-a5765-default-rtdb.firebaseio.com" //Your Firebase Project URL goes here without "http:" , "\" and "/"
+#define FIREBASE_AUTH "DRhi69XmlFjaqedVrxXefCxZnsGPaMq3t7bqGToa" //Your Firebase Auth Token
+
+FirebaseData firebaseData;
+
+// define the GPIO connected with Relays and switches
+#define CongtacHT1  D0 //GPIO 16
+#define CongtacHT2  D5 
+#define ENA  D1 //GPIO 5
+#define IN1  D2 //GPIO 4
+#define IN2  D3 //GPIO 0
+
+#define CBMua 10 //SD3
+#define CBLight 9  //SD2
+#define NutRa 12 //D5
+#define NutVao 14 //D6
+
+#define wifiLed D4 //GPIO 2
+
+int load1=1, load2=1, load3=1, load4=1, Power;
+int CTHT1=0;
+int CTHT2=0;
+void setup() {  
+Serial.begin(115200);
+  
+  
+pinMode(ENA, OUTPUT); 
+pinMode(IN1, OUTPUT); 
+pinMode(IN2, OUTPUT); 
+
+pinMode(wifiLed, OUTPUT);
+//Cảm biến 
+pinMode(CongtacHT1, INPUT);
+pinMode(CongtacHT2, INPUT); 
+pinMode(CBMua, INPUT);
+pinMode(CBLight, INPUT);
+pinMode(NutRa, INPUT_PULLUP);
+pinMode(NutVao, INPUT_PULLUP);
+  
+// Kết nối với mạng WiFi hoặc tạo mạng WiFi cấu hình nếu không có thông tin WiFi
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("WiFiSetup");
+
+  // Hiển thị thông tin kết nối WiFi
+  Serial.println("WiFi connected");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+  delay(10);
+Firebase.begin(FIREBASE_HOST,FIREBASE_AUTH);
+delay(50);
+}
+
+void loop() {
+  
+if (WiFi.status() != WL_CONNECTED){ 
+    //Serial.println("WiFi Not Connected");
+    digitalWrite(wifiLed, HIGH); //Turn off WiFi LED
+  }
+  else{ 
+    //Serial.println("WiFi Connected");
+    digitalWrite(wifiLed, LOW); //Turn on WiFi LED
+}
+// đọc trạng thai cảm biến
+int trangthainutRa=digitalRead(NutRa);
+int trangthainutVao=digitalRead(NutVao);
+int trangthaiCBMua=digitalRead(CBMua);
+int trangthaiCBLight=digitalRead(CBLight);
+int trangthaiCongtacHT1=digitalRead(CongtacHT1);
+int trangthaiCongtacHT2=digitalRead(CongtacHT2);
+  delay(100);
+ if(trangthainutRa!=0 || trangthainutVao!=0){// nếu 2 nút k dc nhấn
+    if(trangthaiCBLight!=1){//trời sáng
+      if(trangthaiCBMua!=0){//nếu không mưa
+        if(Power==0 && load4==0 && CTHT2==0){
+          MoDC();
+        }
+      }else{//nếu mưa
+        DongDC();
+      }
+    }else{//trời tối
+      DongDC();
+    }
+  }else{ // 1 trong 2 nút dc nhấn
+        if(trangthainutRa!=1 && trangthainutVao!=0){ 
+            DongDC();
+        }else{
+            MoDC();
+        }
+  }
+
+
+Switch_Read();
+if(Firebase.get(firebaseData,"IOT_Control_4Load/P1")) {
+ if (firebaseData.dataType() == "string") {
+ Power = firebaseData.stringData().toInt();
+ }
+}
+Relays(); 
+
+Switch_Read();
+if(Firebase.get(firebaseData,"IOT_Control_4Load/L1")) {
+ if (firebaseData.dataType() == "string") {
+ load1 = firebaseData.stringData().toInt();
+ }
+}
+Relays(); 
+
+Switch_Read();
+if(Firebase.get(firebaseData,"IOT_Control_4Load/L2")) {
+ if (firebaseData.dataType() == "string") {
+ load2 = firebaseData.stringData().toInt();
+ }
+}
+Relays(); 
+
+Switch_Read();
+if(Firebase.get(firebaseData,"IOT_Control_4Load/L3")) {
+ if (firebaseData.dataType() == "string") {
+ load3 = firebaseData.stringData().toInt();
+ }
+}
+Relays(); 
+
+Switch_Read();
+if(Firebase.get(firebaseData,"IOT_Control_4Load/L4")) {
+ if (firebaseData.dataType() == "string") {
+ load4 = firebaseData.stringData().toInt();
+  }
+ }
+Relays(); 
+ 
+}
+
+
+
+void Switch_Read(){
+     
+     if(digitalRead(CBMua) == LOW){Power=0;
+     update_power_status();
+      load1 = !load1;
+      Relays(); 
+if(Firebase.setString(firebaseData, "IOT_Control_4Load/L1", String(load1))){
+    Serial.println("PASSED");
+    Serial.println("PATH: " + firebaseData.dataPath());
+    Serial.println("TYPE: " + firebaseData.dataType());
+    Serial.println("ETag: " + firebaseData.ETag());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }else{
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }   
+      delay(100); 
+  }
+else if(digitalRead(CBLight) == LOW){Power=0;
+      update_power_status();
+      load2 = !load2;
+      Relays(); 
+if(Firebase.setString(firebaseData, "IOT_Control_4Load/L2", String(load2))){
+    Serial.println("PASSED");
+    Serial.println("PATH: " + firebaseData.dataPath());
+    Serial.println("TYPE: " + firebaseData.dataType());
+    Serial.println("ETag: " + firebaseData.ETag());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }else{
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }  
+ delay(100);
+}
+    
+else if(digitalRead(NutRa) == LOW){Power=0;
+      update_power_status();
+      load3 = !load3;
+      Relays();
+if(Firebase.setString(firebaseData, "IOT_Control_4Load/L3", String(load3))){
+    Serial.println("PASSED");
+    Serial.println("PATH: " + firebaseData.dataPath());
+    Serial.println("TYPE: " + firebaseData.dataType());
+    Serial.println("ETag: " + firebaseData.ETag());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+  else{
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  } 
+  delay(100);
+ }
+ 
+else if(digitalRead(NutVao) == LOW){Power=0;
+      update_power_status();
+      load4 = !load4;
+      Relays();     
+if(Firebase.setString(firebaseData, "IOT_Control_4Load/L4", String(load4))){
+    Serial.println("PASSED");
+    Serial.println("PATH: " + firebaseData.dataPath());
+    Serial.println("TYPE: " + firebaseData.dataType());
+    Serial.println("ETag: " + firebaseData.ETag());
+    Serial.println("------------------------------------");
+    Serial.println();
+ }else{
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+delay(100);
+ }
+}
+
+
+void update_power_status(){
+if(Firebase.setString(firebaseData, "IOT_Control_4Load/P1", String(Power))){
+    Serial.println("PASSED");
+    Serial.println("PATH: " + firebaseData.dataPath());
+    Serial.println("TYPE: " + firebaseData.dataType());
+    Serial.println("ETag: " + firebaseData.ETag());
+    Serial.println("------------------------------------");
+    Serial.println();
+}else{
+    Serial.println("FAILED");
+    Serial.println("REASON: " + firebaseData.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+}   
+}
+
+void Relays(){  
+if(Power==0){
+  
+if(load4==1 && CTHT1==0){
+  MoDC();
+}else if(load4==0 && CTHT2==0){
+  DongDC();
+}else{
+  DungDC();
+}
+}else{
+DungDC();
+ }
+}
+void DungDC(){
+digitalWrite(IN1, LOW);  
+digitalWrite(IN2, LOW);
+analogWrite(ENA, 0);
+}
+void DongDC(){
+digitalWrite(IN1, LOW);  
+digitalWrite(IN2, HIGH);
+analogWrite(ENA, 255);
+}
+void MoDC(){
+digitalWrite(IN1, HIGH);  
+digitalWrite(IN2, LOW);
+analogWrite(ENA, 255);
+}
+
+  
