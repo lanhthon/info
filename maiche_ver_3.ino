@@ -1,3 +1,7 @@
+//http://arduino.esp8266.com/stable/package_esp8266com_index.json
+//https://github.com/tzapu/WiFiManager
+//https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+//192.168.4.1
 #include <WiFiManager.h>// thư viện định cấu hình wifi của tzapu
 #include <ESP8266WiFi.h> 
 #include <FirebaseESP8266.h>
@@ -57,7 +61,7 @@ void setup() {
 
  // Kết nối với mạng WiFi hoặc tạo mạng WiFi cấu hình nếu không có thông tin WiFi
   WiFiManager wifiManager;
-  wifiManager.autoConnect("WiFiSetup");
+  wifiManager.autoConnect("WiFiSetupMaiChe");
 
   // Hiển thị thông tin kết nối WiFi
   Serial.println("WiFi connected");
