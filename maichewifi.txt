@@ -1,7 +1,7 @@
 //http://arduino.esp8266.com/stable/package_esp8266com_index.json
 //https://github.com/tzapu/WiFiManager
 //https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
-//192.168.1.14
+//192.168.4.1
 #include <WiFiManager.h>// thư viện định cấu hình wifi 
 #include <ESP8266WiFi.h> 
 #include <FirebaseESP8266.h>
@@ -19,8 +19,7 @@ FirebaseData firebaseData;
 
 #define CBMua 10 //SD3
 #define CBLight 9  //SD2
-#define NutRa 12 //D5
-#define NutVao 14 //D6
+
 
 #define wifiLed D4 //GPIO 2
 
@@ -242,29 +241,28 @@ if(Firebase.setString(firebaseData, "IOT_Control_4Load/P1", String(Power))){
 
 void Relays(){  
 if(Power==0){
-  
-if(load4==1 && CTHT1==0){
-  MoDC();
-}else if(load4==0 && CTHT2==0){
-  DongDC();
+  if(CongtacHT1!=0 && load4==1) //mái che đang mở
+            {ra();delay(7000);dung();}
+         else {dung();}
+if(CongtacHT2!=0 && load4==0) //mái che đang đóng
+            {vao();delay(7000);dung();}
+          else {dung();}
+          chuoi="";
 }else{
-  DungDC();
-}
-}else{
-DungDC();
+dung();
  }
 }
-void DungDC(){
+void dung(){
 digitalWrite(IN1, LOW);  
 digitalWrite(IN2, LOW);
 analogWrite(ENA, 0);
 }
-void DongDC(){
+void ra(){
 digitalWrite(IN1, LOW);  
 digitalWrite(IN2, HIGH);
 analogWrite(ENA, 255);
 }
-void MoDC(){
+void vao(){
 digitalWrite(IN1, HIGH);  
 digitalWrite(IN2, LOW);
 analogWrite(ENA, 255);
