@@ -20,19 +20,19 @@ const int ENA=D6;
 const int IN1=D7;
 const int IN2=D8;
 //nút nhấn điều khiển đông cơ
-const int nutnhanra=9;//sd2
+const int nutnhanra=D5;//sd2
 const int nutnhanvao=10;//sd3
 // Chân nút nhấn chuyển đổi chế độ
-const int MODE=D5;
+const int MODE=9;
 
 // Chân nút nhấn kết nối WiFi và điều khiển qua Firebase
 const int WIFI_CONTROL=D4;
 
 // Biến chế độ điều khiển
-int controlMode = 0;
+int controlMode = 1;
 // trạng thái nút nhấn chế độ WiFi. 0-bật,1-tắt
 int wifiControlButtonState=0;
-int powerwifi=0;
+int powerwifi=1;
 // Biến lưu trữ trạng thái nút nhấn điều khiển tay
 int RaButtonState = LOW;
 int VaoButtonState = LOW;
@@ -82,76 +82,25 @@ void loop() {
     Serial.println("WiFi Connected");
     
 }
+
+if (RaButtonState == LOW) {
+      
+          vao();
+          
+      }else{
+            dung();
+      }
+    
+     
   // Đọc trạng thái nút nhấn chuyển đổi chế độ
   int modeSwitchState = digitalRead(MODE);
   // Đọc trạng thái ctht
   int trangthaict1 = digitalRead(ctht1);
   int trangthaict2 = digitalRead(ctht2);
- 
+ Serial.println(trangthaict1);
+ Serial.println(trangthaict1);
 
-  // Kiểm tra chế độ điều khiển và xử lý tương ứng
-  if (controlMode == 1) {
-    // Đọc trạng thái nút nhấn điều khiển tay
-    RaButtonState = digitalRead(nutnhanra);
-    VaoButtonState = digitalRead(nutnhanvao);
-
-    // Điều khiển động cơ dựa trên trạng thái nút nhấn
-    if (RaButtonState == LOW && VaoButtonState == HIGH) {
-      if(trangthaict2!=0){
-          vao();
-           Trangthaimaiche=0;
-          update_Maiche();
-      }else{
-            dung();
-      }
-    
-    } else if (RaButtonState == HIGH && VaoButtonState == LOW) {
-    if(trangthaict1!=0){
-          ra();
-           Trangthaimaiche=1;
-          update_Maiche();
-      }else{
-            dung();
-      }
-} else {
-dung();
-}
-} else if (controlMode == 0) {
-// Đọc giá trị từ cảm biến mưa và cảm biến ánh sáng
-int MuaValue = digitalRead(CbMua);
-int sangValue = analogRead(CbAsang);
-Serial.println(sangValue);
-
-// Điều khiển động cơ dựa trên giá trị cảm biến
-if (sangValue > 500 ) {//trời sáng
-  if(MuaValue==0){//có mưa
-    if(trangthaict1!=0){//nếu mái che đang mở
-          ra();
-           Trangthaimaiche=1;
-          update_Maiche();
-      }else{
-            dung();
-      }
-  }else{//không mưa
-    if(trangthaict2!=0){// mái che đang đóng thì vào
-          vao();
-           Trangthaimaiche=0;
-          update_Maiche();
-      }else{
-            dung();
-      }
-  }
   
-} else {//trời tối
-  if(trangthaict1!=0){//nếu mái che đang mở
-          ra();
-           Trangthaimaiche=1;
-          update_Maiche();
-      }else{
-            dung();
-      }
-}
-}
 
 // Đọc trạng thái nút nhấn kết nối WiFi và điều khiển qua Firebase
  wifiControlButtonState = digitalRead(WIFI_CONTROL);
@@ -166,7 +115,7 @@ if (wifiControlButtonState!=powerwifi) {
   delay(50);
   update_power_status();
 }
-
+update_power_status();
 if(Firebase.get(firebaseData,"IOT_Control_4Load/P1")) {
  if (firebaseData.dataType() == "string") {
  powerwifi = firebaseData.stringData().toInt();
@@ -180,9 +129,9 @@ if(Firebase.get(firebaseData,"IOT_Control_4Load/L4")) {
   }
  }
  // điều khiển bằng wifi
-if(powerwifi==0){
+if(powerwifi==1){
     if(Trangthaimaiche==0){
-         if(trangthaict2!=0){
+         if(trangthaict1!=0){
             Trangthaimaiche=0;
           vao();
           update_Maiche();
@@ -190,16 +139,14 @@ if(powerwifi==0){
             dung();
       }
     }else if(Trangthaimaiche==1){
-        if(trangthaict1!=0){
+        if(trangthaict2!=0){
            Trangthaimaiche=1;
           ra();
           update_Maiche();
       }else{
             dung();
       }
-    }else{
-        dung();
-          }
+    }
   }else{
    dung();
         }
