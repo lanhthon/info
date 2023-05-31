@@ -32,8 +32,8 @@ void setup() {
 void loop() {
   if (WiFi.status() != WL_CONNECTED){ 
     digitalWrite(LED,LOW);
-  }
-  else{ 
+    Serial.write(10);
+  }else{ 
     digitalWrite(LED,HIGH);
   }
 
@@ -57,13 +57,13 @@ void loop() {
       wifiManager.autoConnect("WiFiSetup_Maiche");
       //Led báo
       digitalWrite(LED,LOW);
-      delay(200);
+      delay(500);
       digitalWrite(LED,HIGH);
-      delay(200);
+      delay(500);
       digitalWrite(LED,LOW);
-      delay(200);
+      delay(500);
       digitalWrite(LED,HIGH);
-      delay(200);
+      delay(500);
       digitalWrite(LED,LOW);
     }
     
