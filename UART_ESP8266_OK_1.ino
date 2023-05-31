@@ -8,7 +8,7 @@ FirebaseData firebaseData;
 #define LED 2
 int wifimode=1,wifimodelast=1;
 int Trangthaimaiche=3,Trangthaimaichelast=3;
-const int buttonPin = 14;//D4
+const int buttonPin = 14;//D5
 const int buttonThreshold = 1000; // Ngưỡng thời gian nhấn giữ (đơn vị: ms)
 unsigned long buttonPressTime = 0; // Thời gian nút được nhấn (đơn vị: ms)
 boolean buttonPressed = false; // Trạng thái nút được nhấn
@@ -17,7 +17,7 @@ boolean ledstate = false;
 boolean ketnoi = false;
 void setup() {
   Serial.begin(115200);  //Khởi tạo cổng serial
-  pinMode(button,INPUT_PULLUP);
+  pinMode(buttonPin,INPUT_PULLUP);
   pinMode(LED,OUTPUT);
    // Kết nối với mạng WiFi hoặc tạo mạng WiFi cấu hình nếu không có thông tin WiFi
   WiFiManager wifiManager;
@@ -32,8 +32,8 @@ void setup() {
 void loop() {
   if (WiFi.status() != WL_CONNECTED){ 
     digitalWrite(LED,LOW);
-  }
-  else{ 
+    Serial.write(10);
+  }else{ 
     digitalWrite(LED,HIGH);
   }
 
@@ -57,13 +57,13 @@ void loop() {
       wifiManager.autoConnect("WiFiSetup_Maiche");
       //Led báo
       digitalWrite(LED,LOW);
-      delay(200);
+      delay(500);
       digitalWrite(LED,HIGH);
-      delay(200);
+      delay(500);
       digitalWrite(LED,LOW);
-      delay(200);
+      delay(500);
       digitalWrite(LED,HIGH);
-      delay(200);
+      delay(500);
       digitalWrite(LED,LOW);
     }
     
@@ -76,10 +76,12 @@ void loop() {
   //13 ctht2 chưa chạm/14 ctht2 Đang chạm
 if(Serial.available()){
  
-    String c=Serial.readStringUntil('\n');//đọc giá trị giửi đến khi gặp xuống dòng
+    byte c = Serial.read();
    
-    if(c=="4" || c=="5"){
+    if(c==4 || c==5){
       Firebase.setString(firebaseData, "IOT_Control_4Load/P1", String(c));
+    }else if(c==6||c==7){
+      Firebase.setString(firebaseData, "IOT_Control_4Load/Mua", String(c));
     }else{
       Firebase.setString(firebaseData, "IOT_Control_4Load/L1", String(c));
     }
