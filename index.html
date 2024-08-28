@@ -1,299 +1,156 @@
-
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-  	<link rel="icon" href="img/cc.png">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8" />
-    
-    <title>Lành Thôn</title>
-
-<style type="text/css" media="screen">
-
-@import url(https://fonts.googleapis.com/css?family=BenchNine:700);
-.snip1582 {
-  background-color: #c47135;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: 'BenchNine', Arial, sans-serif;
-  font-size: 1em;
-  font-size: 22px;
-  line-height: 1em;
-  margin: 15px 40px;
-  outline: none;
-  padding: 12px 40px 10px;
-  position: relative;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.snip1582:before,
-.snip1582:after {
-  border-color: transparent;
-  -webkit-transition: all 0.25s;
-  transition: all 0.25s;
-  border-style: solid;
-  border-width: 0;
-  content: "";
-  height: 24px;
-  position: fixed;
-  width: 24px;
-}
-
-.snip1582:before {
-  border-color: #c47135;
-  border-top-width: 2px;
-  left: 0px;
-  top: -5px;
-}
-
-.snip1582:after {
-  border-bottom-width: 2px;
-  border-color: #c47135;
-  bottom: -5px;
-  right: 0px;
-}
-
-.snip1582:hover,
-.snip1582.hover {
-  background-color: #c47135;
-}
-
-.snip1582:hover:before,
-.snip1582.hover:before,
-.snip1582:hover:after,
-.snip1582.hover:after {
-  height: 100%;
-  width: 100%;
-}
-
-
-
-@keyframes bg {
-    0%{ transform: scale(1.2);}
-    100%{ transform: scale(1.3);}
-}
-@keyframes move {
-    0%{
-        transform: translateX(0);
-        opacity: 0;
-    }
-    10% ,90%{
-        opacity: 1;
-    }
-    100%{
-        transform: translateX(45vw);
-        opacity: 0;
-    }
-}
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%; 
-  min-height: 100%;
-  width:100%;
-  height:100%;
-  filter: blur(5px);
-   transform: scale(1.2);
-}
-body {
-  margin: 0;
-  font-family: Arial;
-  font-size: 17px;
- width: 100%;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-	background-image: url("backgound.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  
-/*     animation: bg 8s linear infinite alternate; */
-
-}
-
-b {
-  
-  text-transform: capitalize;
-}
-#loibaihat {
-  z-index: 2;  
-  position: fixed;
-  top: 1;
-  left: 0;
-  right: 0;
-  text-align: center;
-  background-size: cover;
-  
-  background-color: rgba(255, 255, 255, 0.5);
-  }
-/*  
-Thanks to: Usama Tahir
-https://medium.com/@AmJustSam
-*/
-
-*{
- margin: 0;
- padding: 0;
-}
-
-html{
-    width: 100vw;
-    height: 100vh;
-}
-
-/* CSS which you need for blurred box */
-body{
-    
- background-repeat: no-repeat;
- background-attachment: fixed;
- background-size: cover;
- background-position: top;
- 
- width: 100%;
- height: 100%;
- font-family: Arial, Helvetica;
- letter-spacing: 0.02em;
-  font-weight: 400;
- -webkit-font-smoothing: antialiased; 
-}
-
-.blurred-box{
-  position: relative;
-  width: 250px;
-  height: 390px;
-  top: calc(50% - 175px);
-  left: calc(50% - 125px);
-  background: inherit;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.blurred-box:after{
- content: '';
- width: 300px;
- height: 300px;
- background: inherit; 
- position: absolute;
- left: -25px;
- left position
- right: 0;
- top: -25px;  
- top position 
- bottom: 0;
- box-shadow: inset 0 0 0 200px rgba(255,255,255,0.05);
- filter: blur(1px);
-}
-
-
-/* Form which you dont need */
-.user-login-box{
-  position: relative;
-  margin-top: 50px;
-  text-align: center;
-  z-index: 1;
-}
-.user-login-box > *{
-  display: inline-block;
-  width: 200px;
-}
-
-.user-icon{
-  width: 100px;
-  height: 100px;
-  position: relative;
-  border-radius: 50%;
-  background-size: contain;
-  background-image: url(gioithieu.png);
-	background-repeat:no-repeat;
-}
-
-.user-name{
-  margin-top: 15px;
-  ma
-  color: white;
-}
-.text{
-  
-  font-size: 10px;
-}
-a{
-	color:#fff;
-	}
-input.user-password{
-  width: 120px;
-  height: 18px;
-  opacity: 0.4;
-  border-radius: 2px;
-  padding: 5px 15px;
-  border: 0;
-}
-
-#pot {
-   -webkit-animation: slide 0.5s forwards;
-    -webkit-animation-delay: 2s;
-    animation: slide 0.5s forwards;
-    animation-delay: 2s;
-}
-
-@-webkit-keyframes slide {
-    100% { right: -100; }
-}
-
-@keyframes slide {
-    100% { right: -100; }
-}
-
-.svg-icon {
-  width: 1em;
-  height: 1em;
-}
-
-.svg-icon path,
-.svg-icon polygon,
-.svg-icon rect {
-  fill: #4691f6;
-}
-
-.svg-icon circle {
-  stroke: #4691f6;
-  stroke-width: 1;
-}
-</style>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu Lập Trình Viên - Lành Thôn</title>
+    <style>
+        /* Video nền */
+        .video-background {
+            position: fixed; /* Đặt video ở vị trí cố định */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Đảm bảo video luôn ở dưới cùng */
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #fff; /* Màu chữ trắng cho phù hợp với video nền */
+        }
+        
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        
+        header {
+            background: rgba(51, 51, 51, 0.7); /* Nền header trong suốt */
+            color: #fff;
+            padding: 30px 0;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: #ddd 1px solid;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        section {
+            margin: 20px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .info-section {
+            background: rgba(0, 0, 0, 0.6); /* Nền mờ cho các phần thông tin */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        
+        .info-section h2 {
+            color: #f4f4f4;
+            margin-top: 0;
+        }
+        
+        .info-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .info-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(51, 51, 51, 0.7); /* Nền footer trong suốt */
+            color: #fff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .contact-info a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Hiệu ứng chuyển động */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .info-section {
+            animation: slideUp 1s ease-out;
+        }
+    </style>
 </head>
-
-
-    
 <body>
-	
+    <!-- Video nền -->
+    <video class="video-background" autoplay muted loop>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     
-       
-
-
-<div class=".blurred-box">
-<center>
-<a href="cambienamthanh.txt">Cảm biến âm thanh vỗ tay bật tắt relay</a><br><hr>
-<a href="servo.txt">servo và áp trở điều tốc</a><br><hr>
-<a href="button.txt">Button nhấn đèn sáng</a><br><hr>
-<a href="doam.txt">độ ẩm</a><br><hr>
-<a href="lcd.txt">lcd</a><br><hr>
-<a href="button.txt">nhấn button đèn sáng</a><br><hr>
-<a href="khoangcach.txt">khoảng cách</a><br><hr>
-<a href="bluetooth.txt">bluetooth</a><br><hr>
-</center>
-	
-	
-	
-	
-	</div>
-
-
+    <header>
+        <div class="container">
+            <h1>Lành Thôn</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="info-section">
+            <h2>💻 Kỹ Năng & Công Nghệ</h2>
+            <ul>
+                <li><strong>Web Development:</strong> HTML, CSS, JavaScript, React, Node.js, và các công nghệ liên quan.</li>
+                <li><strong>Android Development:</strong> Java, Kotlin, Android SDK, và thiết kế UI/UX cho các ứng dụng di động.</li>
+                <li><strong>Unity 2D Development:</strong> C# programming, Unity Editor, 2D game mechanics, và thiết kế trò chơi.</li>
+                <li><strong>Công cụ phát triển:</strong> VS Code, Android Studio, Unity, Git, Docker</li>
+                <li><strong>Hệ quản trị cơ sở dữ liệu:</strong> MySQL, SQLite, Firebase</li>
+            </ul>
+        </section>
+        
+        <section class="info-section">
+            <h2>📫 Liên Hệ</h2>
+            <p class="contact-info">
+                Email: <a href="mailto:lanhthon@gmail.com">lanhthon@gmail.com</a><br>
+              
+                GitHub/Portfolio: <a href="https://github.com/lanhthon/" target="_blank">github.com/lanhthon/</a>
+            </p>
+        </section>
+        
+        <section class="info-section">
+            <h2>🔥 Theo Dõi Hành Trình Của Tôi</h2>
+            <p class="contact-info">
+                Facebook: <a href="https://www.facebook.com/profile.php?id=61556449364728" target="_blank">Facebook</a>
+            </p>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2024 Lành Thôn. Tất cả quyền được bảo lưu.</p>
+    </footer>
 </body>
 </html>
